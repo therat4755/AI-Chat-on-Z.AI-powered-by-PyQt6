@@ -1,8 +1,8 @@
 import sys
 import os
 import json
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
+from PyQt6.QtWidgets import *
+from PyQt6.QtCore import *
 from zai import ZaiClient
 import playsound as p
 
@@ -155,7 +155,7 @@ class AIApp(QWidget):
 
     def show_history(self):
         dialog = HistoryWindow(self, self.conversations)
-        dialog.exec_()
+        dialog.exec()
 
     def search_country(self):
         query = self.search_input.text().strip()
