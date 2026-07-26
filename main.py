@@ -15,13 +15,13 @@ class HistoryWindow(QDialog):
     def __init__(self, parent=None, conversations=None):
         super().__init__(parent)
         self.conversations = conversations # Посилання на список розмов
-        self.setWindowTitle("Історія розмов")
+        self.setWindowTitle("Conversation history")
         self.resize(300, 400)
         
         layout = QVBoxLayout()
         
         self.search_input = QLineEdit()
-        self.search_input.setPlaceholderText("Пошук за заголовками...")
+        self.search_input.setPlaceholderText("Search by title...")
         self.search_input.textChanged.connect(self.filter_history)
         
         self.list_widget = QListWidget()
@@ -30,8 +30,8 @@ class HistoryWindow(QDialog):
         self.list_widget.itemDoubleClicked.connect(self.open_conversation)
         
         btn_layout = QHBoxLayout()
-        self.new_btn = QPushButton("Нова розмова")
-        self.del_btn = QPushButton("Видалити")
+        self.new_btn = QPushButton("New chat")
+        self.del_btn = QPushButton("Delete chat")
         
         self.new_btn.clicked.connect(self.create_new_chat)
         self.del_btn.clicked.connect(self.delete_item)
@@ -85,7 +85,7 @@ class AIApp(QWidget):
         self.resize(450, 600)
         main_layout = QVBoxLayout()
 
-        self.history_button = QPushButton("Переглянути історію")
+        self.history_button = QPushButton("View history")
         self.history_button.clicked.connect(self.show_history)
         
         self.info_area = QTextEdit()
@@ -95,8 +95,8 @@ class AIApp(QWidget):
         
         search_layout = QHBoxLayout()
         self.search_input = QLineEdit()
-        self.search_input.setPlaceholderText("Запитайте Z.AI...")
-        self.search_button = QPushButton("Надіслати")
+        self.search_input.setPlaceholderText("Ask Z.AI...")
+        self.search_button = QPushButton("Send")
         self.search_button.clicked.connect(self.search_country)
         
         main_layout.addWidget(self.history_button)
@@ -107,7 +107,7 @@ class AIApp(QWidget):
         self.setLayout(main_layout)
 
     def create_new_chat(self):
-        new_chat = {'title': f'Розмова {len(self.conversations) + 1}', 'content': ''}
+        new_chat = {'title': f'Conversation {len(self.conversations) + 1}', 'content': ''}
         self.conversations.append(new_chat)
         self.current_index = len(self.conversations) - 1
         self.info_area.clear()
@@ -123,7 +123,7 @@ class AIApp(QWidget):
             active_conv = self.conversations[self.current_index]
             del self.conversations[index]
             if not self.conversations:
-                self.conversations.append({'title': 'Початкова розмова', 'content': ''})
+                self.conversations.append({'title': 'First conversation', 'content': ''})
                 self.current_index = 0
             else:
                 if active_conv in self.conversations:
@@ -139,12 +139,12 @@ class AIApp(QWidget):
                 with open("conversations.json", "r", encoding="utf-8") as f:
                     self.conversations = json.load(f)
                 if not self.conversations:
-                    self.conversations = [{'title': 'Початкова розмова', 'content': ''}]
+                    self.conversations = [{'title': 'First conversation', 'content': ''}]
             except Exception as e:
                 print(f"Error loading conversations: {e}")
-                self.conversations = [{'title': 'Початкова розмова', 'content': ''}]
+                self.conversations = [{'title': 'First conversation', 'content': ''}]
         else:
-            self.conversations = [{'title': 'Початкова розмова', 'content': ''}]
+            self.conversations = [{'title': 'First conversation', 'content': ''}]
 
     def save_conversations(self):
         try:
@@ -182,7 +182,7 @@ class AIApp(QWidget):
             self.save_conversations()
             p.playsound("done.mp3")
         except Exception as e:
-            self.info_area.append(f"Помилка: {str(e)}")
+            self.info_area.append(f"Error: {str(e)}")
             self.save_conversations()
 
 if __name__ == '__main__':
