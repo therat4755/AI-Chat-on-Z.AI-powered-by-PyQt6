@@ -5,10 +5,13 @@ from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
 from zai import ZaiClient
 import playsound as p
+import re
+
 
 name = os.getlogin()
 api = 'bdbe9f9db7234a8f98f5067e7cd94ab1.pggwr93ttTJqgffI'
 client = ZaiClient(api_key=api, base_url="https://api.z.ai/api/paas/v4/")
+bold_toggle = False
 
 
 class HistoryWindow(QDialog):
@@ -177,8 +180,16 @@ class AIApp(QWidget):
                 messages=[{"role": "user", "content": query}]
             )
             ai_text = response.choices[0].message.content
+            # конвертор в markdown
+            def replace_bold(match):
+                global bold_toggle
+                bold_toggle = not bold_toggle
+                return '<b>' if bold_toggle else '</b>'
+
+            result = re.sub(r'\*\*|__', replace_bold, ai_text)
+            result = re.sub(r'~', '<s>', result)
             self.conversations[self.current_index]['content'] += f"Z.AI: {ai_text}\n"
-            self.info_area.append(f"Z.AI: {ai_text}\n")
+            self.info_area.append(f"Z.AI: {result}\n")
             self.save_conversations()
             p.playsound("done.mp3")
         except Exception as e:
