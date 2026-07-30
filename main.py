@@ -84,7 +84,7 @@ class AIApp(QWidget):
         self.initUI()
 
     def initUI(self):
-        self.setWindowTitle("Чат з Z.AI")
+        self.setWindowTitle("Z.AI Chatbot")
         self.resize(450, 600)
         main_layout = QVBoxLayout()
 
