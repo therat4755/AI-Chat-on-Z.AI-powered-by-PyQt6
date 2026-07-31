@@ -38,7 +38,7 @@ Make sure you have Python installed along with the required libraries:
 
 1. Clone the repository:
 ```bash
-   git clone [https://github.com/your-username/your-repo-name.git](https://github.com/your-username/your-repo-name.git)
+   git clone [[https://github.com/your-username/your-repo-name.git](https://github.com/your-username/your-repo-name.git)](https://github.com/therat4755/AI-Chat-on-Z.AI-powered-by-PyQt6.git)
    cd your-repo-name
 ```
 2. Configure your API key in the script if necessary.
