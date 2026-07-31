@@ -119,7 +119,21 @@ class AIApp(QWidget):
     def load_conversation(self, index):
         if 0 <= index < len(self.conversations):
             self.current_index = index
-            self.info_area.setPlainText(self.conversations[index]['content'])
+            
+            raw_text = self.conversations[index]['content']
+            global bold_toggle
+            bold_toggle = False
+            
+            def replace_bold(match):
+                global bold_toggle
+                bold_toggle = not bold_toggle
+                return '<b>' if bold_toggle else '</b>'
+            
+            result = re.sub(r'\*\*|__', replace_bold, raw_text)
+            result = re.sub(r'~', '<s>', result)
+            
+            result = result.replace('\n', '<br>')
+            self.info_area.setHtml(result)
 
     def delete_conversation(self, index):
         if 0 <= index < len(self.conversations):
